@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Designações</title>
+</head>
+
+<body>
+    <h1>Designações</h1>
+
+    <form id="geradorForm">
+        <label for="gerarNovosPares">Gerar novos pares:</label>
+        <input type="checkbox" id="gerarNovosPares" name="gerarNovosPares">
+        <button type="submit">Gerar</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Homem Principal</th>
+                <th>Homem Secundário</th>
+                <th>Mulher Principal</th>
+                <th>Mulher Secundária</th>
+            </tr>
+        </thead>
+        <tbody id="paresGerados">
+        </tbody>
+    </table>
+
+    <script src="designa.js"></script>
+
+</body>
+
+</html>
