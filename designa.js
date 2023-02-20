@@ -1,62 +1,79 @@
-const nomesMasculinos = ["João", "Pedro", "Lucas", "Miguel", "Gabriel", "Enzo", "Arthur", "Heitor"];
-const nomesFemininos = ["Maria", "Ana", "Beatriz", "Lara", "Julia", "Sophia", "Isabella", "Valentina"];
+// Obtém os nomes dos participantes a partir dos campos de entrada de texto no formulário
+let nomeHomemPrincipal = document.getElementById("homemPrincipal").value;
+let nomeHomemSecundario = document.getElementById("homemSecundario").value;
+let nomeMulherPrincipal = document.getElementById("mulherPrincipal").value;
+let nomeMulherSecundaria = document.getElementById("mulherSecundaria").value;
 
-function gerarPares(semanaAnterior) {
-    let pares = [];
-    let homensDisponiveis = nomesMasculinos.slice();
-    let mulheresDisponiveis = nomesFemininos.slice();
-    let homensSemanaAnterior = semanaAnterior ? semanaAnterior.map(par => par.homem) : [];
-    let mulheresSemanaAnterior = semanaAnterior ? semanaAnterior.map(par => par.mulher) : [];
-
-    // Garantir que o primeiro par seja de homens
-    let primeiroHomem = homensDisponiveis[Math.floor(Math.random() * homensDisponiveis.length)];
-    let primeiraMulher;
-    do {
-        primeiraMulher = mulheresDisponiveis[Math.floor(Math.random() * mulheresDisponiveis.length)];
-    } while (primeiraMulher.charAt(0) === primeiroHomem.charAt(0));
-
-    homensDisponiveis = homensDisponiveis.filter(nome => nome !== primeiroHomem);
-    mulheresDisponiveis = mulheresDisponiveis.filter(nome => nome !== primeiraMulher);
-
-    pares.push({
-        homem: primeiroHomem,
-        mulher: primeiraMulher,
-        nivel: Math.floor(Math.random() * 10) + 1
-    });
-
-    for (let i = 1; i < 8; i++) {
-        let homem;
-        let mulher;
-
-        do {
-            homem = homensDisponiveis[Math.floor(Math.random() * homensDisponiveis.length)];
-        } while (homensSemanaAnterior.includes(homem) || homem.charAt(0) !== pares[i - 1].homem.charAt(0));
-
-        do {
-            mulher = mulheresDisponiveis[Math.floor(Math.random() * mulheresDisponiveis.length)];
-        } while (mulheresSemanaAnterior.includes(mulher) || mulher.charAt(0) !== pares[i - 1].mulher.charAt(0));
-
-        homensDisponiveis = homensDisponiveis.filter(nome => nome !== homem);
-        mulheresDisponiveis = mulheresDisponiveis.filter(nome => nome !== mulher);
-
-        pares.push({
-            homem: homem,
-            mulher: mulher,
-            nivel: Math.floor(Math.random() * 10) + 1
-        });
+// Define a lista de nomes de participantes
+let participantes = [{
+        nome: nomeHomemPrincipal,
+        sexo: "M",
+        nivel: 4
+    },
+    {
+        nome: nomeHomemSecundario,
+        sexo: "M",
+        nivel: 2
+    },
+    {
+        nome: nomeMulherPrincipal,
+        sexo: "F",
+        nivel: 4
+    },
+    {
+        nome: nomeMulherSecundaria,
+        sexo: "F",
+        nivel: 2
     }
+];
 
-    return pares;
+// Define o número máximo de semanas permitido
+const maxSemanas = 4;
+
+// Define a lista de pares e a lista de participantes utilizados em cada semana
+let pares = [];
+let participantesUsados = [];
+
+// Define a função para obter um participante aleatório de uma lista
+function obterParticipanteAleatorio(lista) {
+    let index = Math.floor(Math.random() * lista.length);
+    return lista[index];
 }
 
-function ordenarPares(pares) {
-    pares.sort((a, b) => b.nivel - a.nivel);
-
-    let principais = pares.filter(par => par.homem === pares[0].homem);
-    let secundarias = pares.filter(par => par.homem !== pares[0].homem);
-
-    principais.sort((a, b) => a.nivel - b.nivel);
-    secundarias.sort((a, b) => b.nivel - a.nivel);
-
-    return principais.concat(secundarias);
+// Define a função para verificar se um participante já foi utilizado em uma semana
+function participanteFoiUtilizado(participante, participantesUsados) {
+    for (let i = 0; i < participantesUsados.length; i++) {
+        if (participantesUsados[i].nome === participante.nome) {
+            return true;
+        }
+    }
+    return false;
 }
+
+// Define a função para verificar se um participante já participou na semana atual
+function participanteJaParticipou(participante, pares) {
+    for (let i = 0; i < pares.length; i++) {
+        if (pares[i].participante1.nome === participante.nome || pares[i].participante2.nome === participante.nome) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Define a função para verificar se um participante é do mesmo sexo que outro participante
+function participantesDoMesmoSexo(participante1, participante2) {
+    return participante1.sexo === participante2.sexo;
+}
+
+// Define a função para verificar se um participante tem um nível maior ou igual a outro participante
+function participanteComNivelMaiorOuIgual(participante1, participante2) {
+    return participante1.nivel >= participante2.nivel;
+}
+
+// Define a função para gerar um par aleatório de participantes que atendam aos critérios
+function gerarPar(participantes, participantesUsados, pares, primeiroParMasculino) {
+    let participante1, participante2;
+
+    // Obtém um participante masculino aleatório que ainda não foi utilizado na semana
+    do {
+        participante1 = obterParticipanteAleatorio(participantes.filter(p => p.sexo === "M" && !participanteFoiUtilizado(p, participantesUsados) && (!primeiroParMasculino || p.nivel === 4)));

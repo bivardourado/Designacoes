@@ -16,23 +16,86 @@
         <label for="gerarNovosPares">Gerar novos pares:</label>
         <input type="checkbox" id="gerarNovosPares" name="gerarNovosPares">
         <button type="submit">Gerar</button>
+
+        <br><br>
+
+
+        <br><br>
+
+        <label for="homemPrincipal">Nome do Homem Principal:</label>
+        <input type="text" id="homemPrincipal" name="homemPrincipal" placeholder="Digite o nome do homem principal">
+        <label for="sexoHomemPrincipal">Sexo:</label>
+        <select id="sexoHomemPrincipal" name="sexoHomemPrincipal">
+            <option value="Masculino">Masculino</option>
+         
+        </select>
+        <label for="nivelHomemPrincipal">Nível:</label>
+        <select id="nivelHomemPrincipal" name="nivelHomemPrincipal">
+            <option value="Iniciante">Iniciante</option> 
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+        </select>
+        <label for="semanasHomemPrincipal">Semanas:</label>
+        <input type="number" id="semanasHomemPrincipal" name="semanasHomemPrincipal" min="1" max="52" value="4">
+
+        <br><br>
+
+        <label for="homemSecundario">Nome do Homem Secundário:</label>
+        <input type="text" id="homemSecundario" name="homemSecundario" placeholder="Digite o nome do homem segundario">
+        <label for="sexoHomemSecundario">Sexo:</label>
+        <select id="sexoHomemSecundario" name="sexoHomemSecundario">
+            <option value="Masculino">Masculino</option>
+            
+        </select>
+        <label for="nivelHomemSecundario">Nível:</label>
+        <select id="nivelHomemSecundario" name="nivelHomemSecundario">
+            <option value="Iniciante">Iniciante</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+        </select>
+        <label for="semanasHomemSecundario">Semanas:</label>
+        <input type="number" id="semanasHomemSecundario" name="semanasHomemSecundario" min="1" max="52" value="4">
+
+        <br><br>
+        <label for="mulherPrincipal">Nome da Mulher Principal:</label>
+        <input type="text" id="mulherPrincipal" name="mulherPrincipal" placeholder="Digite o nome da mulher principal">
+        <label for="sexoMulherPrincipal">Sexo:</label>
+        <select id="sexoMulherPrincipal" name="sexoMulherPrincipal">
+            <option value="Feminino">Feminino</option>
+        </select>
+        <label for="nivelMulherPrincipal">Nível:</label>
+        <select id="nivelMulherPrincipal" name="nivelMulherPrincipal">
+            <option value="Iniciante">Iniciante</option> 
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+        </select>
+        <label for="semanasMulherPrincipal">Semanas:</label>
+        <input type="number" id="semanasMulherPrincipal" name="semanasMulherPrincipal" min="1" max="52" value="4">
+
+        <br><br>
+
+        <label for="mulherSecundaria">Nome da Mulher Secundária:</label>
+        <input type="text" id="mulherSecundaria" name="mulherSecundaria" placeholder="Digite o nome da mulher secundária">
+        <label for="sexoMulherSecundaria">Sexo:</label>
+        <select id="sexoMulherSecundaria" name="sexoMulherSecundaria">
+            <option value="Feminino">Feminino</option>
+        </select>
+        <label for="nivelMulherSecundaria">Nível:</label>
+        <select id="nivelMulherSecundaria" name="nivelMulherSecundaria">
+            <option value="Iniciante">Iniciante</option> 
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+        </select>
+        <label for="semanasMulherSecundaria">Semanas:</label>
+        <input type="number" id="semanasMulherSecundaria" name="semanasMulherSecundaria" min="1" max="52" value="4">
+
+
     </form>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Homem Principal</th>
-                <th>Homem Secundário</th>
-                <th>Mulher Principal</th>
-                <th>Mulher Secundária</th>
-            </tr>
-        </thead>
-        <tbody id="paresGerados">
-        </tbody>
-    </table>
+
+
 
     <script src="designa.js"></script>
-
 </body>
 
 </html>
