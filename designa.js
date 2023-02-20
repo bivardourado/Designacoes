@@ -1,79 +1,50 @@
-// Obtém os nomes dos participantes a partir dos campos de entrada de texto no formulário
-let nomeHomemPrincipal = document.getElementById("homemPrincipal").value;
-let nomeHomemSecundario = document.getElementById("homemSecundario").value;
-let nomeMulherPrincipal = document.getElementById("mulherPrincipal").value;
-let nomeMulherSecundaria = document.getElementById("mulherSecundaria").value;
+const pessoas = [];
 
-// Define a lista de nomes de participantes
-let participantes = [{
-        nome: nomeHomemPrincipal,
-        sexo: "M",
-        nivel: 4
-    },
-    {
-        nome: nomeHomemSecundario,
-        sexo: "M",
-        nivel: 2
-    },
-    {
-        nome: nomeMulherPrincipal,
-        sexo: "F",
-        nivel: 4
-    },
-    {
-        nome: nomeMulherSecundaria,
-        sexo: "F",
-        nivel: 2
+function adicionarPessoa() {
+    const nome = document.getElementById("nome").value;
+    const genero = document.getElementById("genero").value;
+    const nivel = document.getElementById("nivel").value;
+
+    const pessoa = { nome, genero, nivel };
+    pessoas.push(pessoa);
+
+    document.getElementById("nome").value = "";
+}
+
+function gerarPares() {
+    const numeroPares = document.getElementById("numeroPares").value;
+    const paresGerados = document.getElementById("paresGerados");
+    paresGerados.innerHTML = "";
+
+    if (numeroPares < 1 || numeroPares > pessoas.length / 2) {
+        paresGerados.innerHTML = "Número de pares inválido";
+        return;
     }
-];
 
-// Define o número máximo de semanas permitido
-const maxSemanas = 4;
+    // Filtrar a lista de pessoas por gênero
+    const homens = pessoas.filter(pessoa => pessoa.genero === "Homem");
+    const mulheres = pessoas.filter(pessoa => pessoa.genero === "Mulher");
 
-// Define a lista de pares e a lista de participantes utilizados em cada semana
-let pares = [];
-let participantesUsados = [];
+    // Embaralhar as listas de homens e mulheres separadamente
+    shuffleArray(homens);
+    shuffleArray(mulheres);
 
-// Define a função para obter um participante aleatório de uma lista
-function obterParticipanteAleatorio(lista) {
-    let index = Math.floor(Math.random() * lista.length);
-    return lista[index];
-}
-
-// Define a função para verificar se um participante já foi utilizado em uma semana
-function participanteFoiUtilizado(participante, participantesUsados) {
-    for (let i = 0; i < participantesUsados.length; i++) {
-        if (participantesUsados[i].nome === participante.nome) {
-            return true;
-        }
+    // Juntar as listas embaralhadas em uma única lista com gêneros alternados
+    const pessoasEmbaralhadas = [];
+    for (let i = 0; i < numeroPares; i++) {
+        pessoasEmbaralhadas.push(homens[i], mulheres[i]);
     }
-    return false;
-}
 
-// Define a função para verificar se um participante já participou na semana atual
-function participanteJaParticipou(participante, pares) {
-    for (let i = 0; i < pares.length; i++) {
-        if (pares[i].participante1.nome === participante.nome || pares[i].participante2.nome === participante.nome) {
-            return true;
-        }
+    // Dividir a lista de pessoas em pares
+    const pares = [];
+    for (let i = 0; i < numeroPares; i++) {
+        pares.push([pessoasEmbaralhadas[i * 2], pessoasEmbaralhadas[i * 2 + 1]]);
     }
-    return false;
+
+    // Exibir os pares gerados na tela
+    pares.forEach(par => {
+        const li = document.createElement("li");
+        li.textContent = `${par[0].nome} (${par[0].genero}, ${par[0].nivel}) e ${par[1].nome} (${par[1].genero}, ${par[1].nivel})`;
+        paresGerados.appendChild(li);
+    });
 }
-
-// Define a função para verificar se um participante é do mesmo sexo que outro participante
-function participantesDoMesmoSexo(participante1, participante2) {
-    return participante1.sexo === participante2.sexo;
-}
-
-// Define a função para verificar se um participante tem um nível maior ou igual a outro participante
-function participanteComNivelMaiorOuIgual(participante1, participante2) {
-    return participante1.nivel >= participante2.nivel;
-}
-
-// Define a função para gerar um par aleatório de participantes que atendam aos critérios
-function gerarPar(participantes, participantesUsados, pares, primeiroParMasculino) {
-    let participante1, participante2;
-
-    // Obtém um participante masculino aleatório que ainda não foi utilizado na semana
-    do {
-        participante1 = obterParticipanteAleatorio(participantes.filter(p => p.sexo === "M" && !participanteFoiUtilizado(p, participantesUsados) && (!primeiroParMasculino || p.nivel === 4)));
