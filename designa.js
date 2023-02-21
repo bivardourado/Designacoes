@@ -1,69 +1,73 @@
-// Definir as listas de homens e mulheres com seus níveis de habilidade
-let homens = [
-    { nome: "Homem 1", nivel: "iniciante" },
-    { nome: "Homem 2", nivel: "intermediário" },
-    { nome: "Homem 3", nivel: "avançado" },
-    { nome: "Homem 4", nivel: "intermediário" },
-    { nome: "Homem 5", nivel: "iniciante" },
-];
-let mulheres = [
-    { nome: "Mulher 1", nivel: "iniciante" },
-    { nome: "Mulher 2", nivel: "intermediário" },
-    { nome: "Mulher 3", nivel: "avançado" },
-    { nome: "Mulher 4", nivel: "avançado" },
-    { nome: "Mulher 5", nivel: "intermediário" },
-];
+const pessoas = [];
 
-// Função para selecionar uma pessoa aleatória de uma lista, que atenda às restrições
-function selecionarPessoa(lista, semanaAtual, semanaAnterior, nivelMax) {
-    let candidatos = lista.filter((pessoa) => {
-        return (
-            semanaAtual.indexOf(pessoa) === -1 &&
-            semanaAnterior.indexOf(pessoa) === -1 &&
-            pessoa.nivel === nivelMax
-        );
-    });
+function adicionarPessoa() {
+    // Obter valores do formulário
+    const nome = document.getElementById("nome").value;
+    const genero = document.getElementById("genero").value;
+    const nivel = document.getElementById("nivel").value;
 
-    if (candidatos.length > 0) {
-        return candidatos[Math.floor(Math.random() * candidatos.length)];
-    } else {
-        return null;
-    }
-}
-
-// Função para gerar um par a partir de duas pessoas selecionadas aleatoriamente
-function gerarPar(semanaAtual, semanaAnterior, nivelMax) {
-    let pessoaPrincipal = selecionarPessoa(homens, semanaAtual, semanaAnterior, nivelMax);
-    let pessoaSecundaria = selecionarPessoa(homens, semanaAtual, semanaAnterior, nivelMax);
-    if (!pessoaPrincipal || !pessoaSecundaria) {
-        pessoaPrincipal = selecionarPessoa(mulheres, semanaAtual, semanaAnterior, nivelMax);
-        pessoaSecundaria = selecionarPessoa(mulheres, semanaAtual, semanaAnterior, nivelMax);
+    // Verificar se o nome foi preenchido
+    if (nome === "") {
+        alert("Por favor, digite um nome.");
+        return;
     }
 
-    return {
-        pessoaPrincipal,
-        pessoaSecundaria
+    // Criar objeto pessoa
+    const pessoa = {
+        nome: nome,
+        genero: genero,
+        nivel: nivel
     };
+
+    // Adicionar pessoa à lista de pessoas
+    pessoas.push(pessoa);
+    console.log(pessoa);
+
+    // Limpar valores do formulário
+    document.getElementById("nome").value = "";
+    document.getElementById("genero").value = "";
+    document.getElementById("nivel").value = "";
+
+    // Exibir mensagem de sucesso
+    alert("Pessoa adicionada com sucesso!");
 }
 
-function gerarPares(listaNomes) {
-    const homens = listaNomes.homens;
-    const mulheres = listaNomes.mulheres;
-    const pares = [];
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
-    // seleciona os níveis existentes na lista de homens e mulheres
-    const niveis = [...new Set([...homens, ...mulheres].map((pessoa) => pessoa.nivel))];
 
-    // gera um par para cada nível
-    for (let nivel of niveis) {
-        const semanaAtual = pares.flatMap((par) => [par.pessoaPrincipal, par.pessoaSecundaria]);
-        const semanaAnterior = homens.concat(mulheres).filter((pessoa) => semanaAtual.indexOf(pessoa) === -1);
+function gerarPares() {
+    const numeroPares = document.getElementById("numeroPares").value;
+    const paresGerados = document.getElementById("paresGerados");
 
-        const par = gerarPar(semanaAtual, semanaAnterior, nivel);
-        if (par) {
+    paresGerados.innerHTML = "";
+
+    if (numeroPares !== "") {
+        shuffle(pessoas);
+
+        console.log(pessoas); // novo console.log adicionado
+
+        const pares = [];
+
+        for (let i = 0; i < pessoas.length; i += 2) {
+            const par = {
+                pessoa1: pessoas[i],
+                pessoa2: pessoas[i + 1]
+            };
+
             pares.push(par);
         }
-    }
 
-    return pares;
+        for (let i = 0; i < pares.length; i++) {
+            const li = document.createElement("li");
+            li.innerHTML = `${pares[i].pessoa1.nome} e ${pares[i].pessoa2.nome}`;
+
+            paresGerados.appendChild(li);
+        }
+    }
 }

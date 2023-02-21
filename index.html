@@ -18,15 +18,19 @@
 
         <label for="genero">Gênero:</label>
         <select id="genero" name="genero">
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-        </select>
+        <option value="Masculino">Masculino</option>
+        <option value="Feminino">Feminino</option>
+      </select>
+
         <label for="nivel">Nível:</label>
         <select id="nivel" name="nivel">
-            <option value="Iniciante">Iniciante</option>
-            <option value="Intermediário">Intermediário</option>
-            <option value="Avançado">Avançado</option>
-        </select>
+        <option value="Iniciante">Iniciante</option>
+        <option value="Intermediário">Intermediário</option>
+        <option value="Avançado">Avançado</option>
+      </select>
+
+        <label for="numeroPares">Número de pares:</label>
+        <input type="number" id="numeroPares" name="numeroPares" placeholder="Digite o número de pares">
 
         <button type="button" onclick="adicionarPessoa()">Adicionar Pessoa</button>
     </form>
@@ -35,6 +39,7 @@
         <button type="button" onclick="gerarPares()">Gerar Pares</button>
     </div>
 
+    <ul id="paresGerados"></ul>
 
     <script src="designa.js"></script>
 </body>
