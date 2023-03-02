@@ -76,6 +76,7 @@ button {
 /* Define um estilo para os itens da lista de pares */
 
 .button-container {
-    text-align: center;
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
